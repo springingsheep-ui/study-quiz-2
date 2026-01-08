@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大乘解行研經班 - 期末練習系統</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top: 8px solid #0056b3;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        .question-box {
+            margin-bottom: 20px;
+        }
+        .type-tag {
+            display: inline-block;
+            background: #e1ecf7;
+            color: #0056b3;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .question-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            font-weight: bold;
+        }
+        .options-container {
+            display: grid;
+            gap: 12px;
+        }
+        button.option {
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+        button.option:hover {
+            background-color: #f8f9fa;
+            border-color: #0056b3;
+        }
+        button.correct {
+            background-color: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724;
+        }
+        button.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24;
+        }
+        #feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+        #next-btn {
+            display: none;
+            width: 100%;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        #next-btn:hover { background-color: #004494; }
+        .final-score {
+            text-align: center;
+            font-size: 48px;
+            color: #0056b3;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz-app">
+    <h1>大乘解行研經班期末考</h1>
+    <div class="subtitle">線上題庫複習系統</div>
+    
+    <div class="stats-bar">
+        <div id="progress">載入中...</div>
+        <div id="score-display">得分: 0</div>
+    </div>
+
+    <div id="quiz-content">
+        <div class="question-box">
+            <div id="type-tag" class="type-tag">類型</div>
+            <div id="question-text" class="question-text">載入中...</div>
+        </div>
+        <div id="options" class="options-container"></div>
+        <div id="feedback"></div>
+        <button id="next-btn" onclick="nextQuestion()">下一題</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // 主題(一) 菩提自性是修行根本 [cite: 1, 2, 3]
+        { type: "是非題", q: "成佛須「三修福慧，百劫修相好」，即使始終不明白心性之理，只要經過三大阿僧祇劫的用功，還是可以成就佛道。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「菩提自性是修行根本」意指修行若離心性，就會失去真正的方向與根源。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "智慧是本性本空，要安住在空性當中。當下這念心，不起心、不動念就是安住。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "任何法門修到一個頂點後，開山祖師指出關鍵在於「安住大素心」，意即安住於實相。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "為了明心見性，修六波羅蜜、持咒、禮拜、拜懺等，這些都屬於加功用行。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "大乘心(菩提心)是一種在因當中廣積福德資糧，累積而來的智慧。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "《壇經》曰：「菩提自性，本來清淨，但用此心，直了成佛。」故不用修行即成佛道。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「明心見性」悟到的覺性本性本空，在此當中不能生萬法。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "選擇題", q: "《楞伽經》說眾生「見不淨」，是何緣故？", options: ["客塵所覆故", "取顛倒妄想", "以上皆是"], answer: 2 },
+        { type: "選擇題", q: "「十法界不離一心，則一切修法都是修心」，下列何者正確？", options: ["此心放下不下即下墮", "諸惡莫作即提升", "修行本質都在修養心性", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "為何說「心外的一切」都是「緣起性空」？", options: ["心外萬法真實不變", "諸法性空是仗托緣而有", "本性本空所以一切是虛空", "以上皆是"], answer: 1 },
+        { type: "選擇題", q: "五祖開示《金剛經》至哪句，六祖言下大悟？", options: ["如是我聞", "凡所有相皆是虛妄", "應無所住而生其心", "不識本心學法無益"], answer: 2 },
+        { type: "選擇題", q: "為什麼要認識本真？", options: ["以生滅心求不生不滅無有是處", "但用此心直了成佛", "不識本心學法無益", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "修行者面對煩惱應如何用功？", options: ["廣修六度", "專注禪定", "從因上、心上去用功", "專門誦唸經咒"], answer: 2 },
+        { type: "選擇題", q: "「安住空性」的涵義是？", options: ["專注呼吸", "保持安住念頭", "當下這念心不起心不動念", "斷除所有習氣"], answer: 2 },
+        { type: "選擇題", q: "「當下識自本心」之「當下」意指？", options: ["這念心始終不離，說話當下即是", "透過解說找答案", "思惟道理後", "以上皆是"], answer: 0 },
+        { type: "選擇題", q: "關於「覺性」描述何者正確？", options: ["虛空一無所有", "須向外學習", "不生不滅且能生萬有", "體性是生滅的"], answer: 2 },
+
+        // 主題(二) 修行由信解自性開始 [cite: 3, 4, 5]
+        { type: "是非題", q: "信心的建立要藉外善知識教導；理解則須自覺，非他人能替代。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "「一闡提」不解不信，是斷絕善根的人，所以不可能成佛。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "修行的過程，應讓信心從初信、正信、深信到證信。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "有智慧無信心者增長無明；有信心無智慧者增長邪見。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "欲向大乘者最初所行根本業，是依止「一實境界」修習信解。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "修行人但從心上用功，不向心外求，信自心是佛。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "「解」是從知解入門，最後還要「解了」才能徹見自性。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "香嚴擊竹聲頓了自心，稱之為「知解之解」。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "內行須斷我法二執；外行則修萬善。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "選擇題", q: "如何信解自性？", options: ["知幻即離", "離幻即覺", "隨順覺性", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "欲證無上菩提，下列何者為非？", options: ["遠離妄心", "不信解自性", "言下識自本心", "修行有無量善法"], answer: 1 },
+        { type: "選擇題", q: "「一闡提」是指？", options: ["利根正見", "利根邪見", "純良正見", "鈍根邪見"], answer: 3 },
+        { type: "選擇題", q: "哪兩種人會「謗佛法僧」？", options: ["發心者與信解者", "斷執者與修善者", "自憍心者與未解義理者", "利根與鈍根"], answer: 2 },
+        { type: "選擇題", q: "關於信解自性何者正確？", options: ["有信無解增長邪見", "地前菩薩由信而解", "解而不信是鈍根", "聞法信入是解了之解"], answer: 1 },
+        { type: "選擇題", q: "判斷自己在「由信而解」階段的標準是？", options: ["背誦經典", "能以正見引導行持", "有神通", "離群索居"], answer: 1 },
+        { type: "選擇題", q: "下列敘述何者錯誤？", options: ["不起心動念即降伏其心", "反觀內照是最高財富", "諸法皆有自性", "依漸修也能證果"], answer: 2 },
+        { type: "選擇題", q: "以下何者為非？", options: ["不信者謗三寶", "有信不解者不謗三寶", "無信有慧能增長正見", "一解即入祖位"], answer: 2 },
+        { type: "選擇題", q: "六祖開悟時聽聞客人在誦哪部經？", options: ["法華經", "華嚴經", "圓覺經", "金剛經"], answer: 3 },
+
+        // 主題(三) 自性世界因不同體悟而開展 [cite: 6, 7, 8]
+        { type: "是非題", q: "六祖大師悟到體用不二，就是要「無住生心」。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "未悟前所修的經咒打坐都屬於加行。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "「勿使惹塵埃」是指修行人應遠離塵世不與人接觸。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "心中無貪瞋癡邪見，真正光明清淨即可見性。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "既然「菩提本無樹」，就不必修善法也可成佛。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "惠能大師作「本來無一物」即已悟到最高實相。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "無住生心的「住」是指專心。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「言下」指的是起心動念當下那一念。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "五祖要門人火急作偈，因為見性之人思慮不能太久。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「時時勤拂拭」只是事上體悟，不能依此用功。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "選擇題", q: "惠能大師言下大悟悟到什麼？", options: ["萬法不離自性", "體用一如", "無住生心即定慧等持", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "「菩提本無樹...」所揭示的理體是？", options: ["畢竟空性", "知幻即離", "妙有之理", "漸修成道"], answer: 0 },
+        { type: "選擇題", q: "下列何者符合「自性能生萬法」？", options: ["隨心所欲", "不需努力工作", "一切早已註定", "積極修善斷惡開創人生"], answer: 3 },
+        { type: "選擇題", q: "神秀偈子未入門，是因為修行屬於？", options: ["執著空", "功德具足", "執著有為法未契無為心", "無實證"], answer: 2 },
+        { type: "選擇題", q: "幫人完成任務卻計較功勞是哪種執著？", options: ["幻有執", "有理無事", "修福著相", "執空廢有"], answer: 2 },
+        { type: "選擇題", q: "為何說「思量即不中用」？", options: ["心性是無為法", "思量是生滅想", "言下須見", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "六祖開悟層次何者為是？", options: ["分悟心體與悟體用一如", "第一次聞經未悟實相", "第二次悟無住生心", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "下列何者為非？", options: ["菩提本無樹是空性", "明鏡表心體", "本來無一物是畢竟空", "何處惹塵埃指菩提心可染污"], answer: 3 },
+
+        // 主題(四)(五) 師度與自度、日用修行 [cite: 8, 9, 10]
+        { type: "是非題", q: "真如有「正因熏習之力」，所以只要靠內熏即能入涅槃。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "善知識是梵行全體，若得善知識則不勞我修。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "具備知識見解並能落實修行者，即稱為「大善知識」。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「觸物起照」指接觸外境時能觀照其虛妄，不為所轉。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "「未曾咬著一粒米」指修行在日用間不被境惑。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "菩薩度眾生必須與眾生同流合污。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "香嚴禪師開悟是體悟到「能聽」與「所聽」同時存在。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「隨其心淨即佛土淨」，只有到西方才能心淨。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "真正覺悟是弟子自性顯現，師父不能代勞。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "自性自度的核心是用自己的正見破除心中邪見。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "選擇題", q: "「外道」是指？", options: ["執造物主者", "執斷常者", "心外求道者", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "如何在日用中修行？", options: ["求固有之知", "不為聲色惑", "過境過遷無物動中", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "日用中依「無住生心」應？", options: ["不思考", "廣行六度不染塵境", "只彈定", "僅修事相"], answer: 1 },
+        { type: "選擇題", q: "世尊乞食行儀讓須菩提體悟到？", options: ["具足威儀", "行住坐臥不離自性", "十分精進", "平等乞食"], answer: 1 },
+        { type: "選擇題", q: "「無盡燈」報答佛恩的表現是？", options: ["誦經", "保衣缽", "開導眾生發心", "以上皆是"], answer: 2 },
+        { type: "選擇題", q: "關於自度何者為非？", options: ["身心不代", "師如指路碑", "師度即梵行全體", "修行在個人"], answer: 2 },
+        { type: "選擇題", q: "欲成佛道，下列何者正確？", options: ["自入涅槃", "須善知識為外緣引導", "正因即師度", "以上皆非"], answer: 1 },
+        { type: "選擇題", q: "依「六即佛」，用功處在？", options: ["福德", "事修", "理全是", "藏身處"], answer: 3 },
+        { type: "選擇題", q: "何者是心外求道？", options: ["觸物起照", "修六度求生天", "人在心在", "布施不住相"], answer: 1 },
+        { type: "選擇題", q: "迷時需要師度是因為？", options: ["令得見性", "脫生死", "無人說雖慧莫了", "以上皆是"], answer: 3 },
+
+        // 主題(六) 圓滿人人本具自性 [cite: 10, 11]
+        { type: "是非題", q: "頓悟法門是染法、清淨法、出世法皆了不可得。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "心不被色聲香味觸法所惑，才是找到路頭。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "「中道」是不偏二邊，但仍承認其為實有。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「事理不二」指懂道理就不需持戒打坐。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "正教無頓漸，因根性利鈍方便立名。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "禪定解脫比見性更重要。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「頓悟」契悟心性，「漸修」由事入理斷習氣。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "維摩詰入不二法門的方式是默然。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "選擇題", q: "關於佛性何者正確？", options: ["不二之法", "非常非斷", "闡提亦有", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "心性只有一個，若是「二」就成？", options: ["相對", "生滅", "方便", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "事後「沾沾自喜」表示？", options: ["思盡還源", "智慧顯現", "執著妄想未銷歸自性", "修行展現"], answer: 2 },
+        { type: "選擇題", q: "事理不二是指？", options: ["事理一如", "圓融無礙", "即事即理", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "關於頓漸何者正確？", options: ["兩者矛盾", "頓為因漸為果", "兩者融通", "漸從理入"], answer: 2 },
+        { type: "選擇題", q: "「佛法是不二法」意義是？", options: ["修禪即可", "有修有證", "超越相對不落二邊", "定慧等持"], answer: 2 },
+        { type: "選擇題", q: "五祖教人的頓悟法門是？", options: ["六度", "見性成佛", "斷惡修善", "推論"], answer: 1 },
+
+        // 主題(七) 大智慧到彼岸 [cite: 12, 13, 14]
+        { type: "是非題", q: "般若主要是指透過博學獲取的智慧。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "修道者應時時指正他人過失以助世間更好。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "波羅蜜意義是覺有情。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "摩訶般若波羅蜜要口念心行才能達道。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "離世間覺是指從日常生活中覺照自心。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "「摩訶」指心如虛空，見善惡應百無所思。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "實踐般若的方法是在一切處保持一直心。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "般若之智須假他人共修拜懺方能見性。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "忍辱若無般若則無法證寂滅忍。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "選擇題", q: "「摩訶般若波羅蜜」意思是？", options: ["正等正覺", "大慈悲", "大智慧到彼岸", "得證果"], answer: 2 },
+        { type: "選擇題", q: "「離道別覓道」提醒應避免？", options: ["怕犯錯", "不知返照外覓師道", "只管自己", "以上皆是"], answer: 1 },
+        { type: "選擇題", q: "關於「般若行」何者為非？", options: ["三輪體空", "思而無思", "一無所知", "保持覺照"], answer: 2 },
+        { type: "選擇題", q: "般若是世人本自具足的？", options: ["博學知識", "根本智慧", "神通力", "推理力"], answer: 1 },
+        { type: "選擇題", q: "六祖以何比喻生死此岸？", options: ["落葉", "波浪", "火焰", "山峰"], answer: 1 },
+        { type: "選擇題", q: "般若何者錯誤？", options: ["此岸如水流不息", "無住無去來即是", "諸佛從中出", "不離自性"], answer: 0 },
+        { type: "選擇題", q: "布施何者錯誤？", options: ["利他是真義", "須般若引導發心", "無相功德", "法施住相也有功德"], answer: 3 },
+        { type: "選擇題", q: "「不見世間過」正確的是？", options: ["不管是非", "見不賢內自省", "不因人過起煩惱", "以上皆是"], answer: 3 },
+        { type: "選擇題", q: "吵架時如何運用摩訶般若？", options: ["壓下怒氣", "任由惡化", "觀照緣起性空不取不捨", "抱怨"], answer: 2 },
+        { type: "選擇題", q: "般若波羅蜜重要的原因是？", options: ["諸佛出處", "萬行之首", "不取不捨即見性", "以上皆是"], answer: 3 },
+
+        // 主題(八)(九)(十) 無念無相無住 [cite: 15, 16]
+        { type: "是非題", q: "無住心可依三際托空達到空無定境。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "念念不住即無縛，是以無住為本。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "貪吃豆腐後趕快回禪堂即可視為無念。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "只要心清淨，什麼都可以不管。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "「見」是指眼睛看見。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "是非題", q: "離相是不執著一切相。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "於相而離相名為無相。", options: ["正確", "錯誤"], answer: 0 },
+        { type: "是非題", q: "無念是心中沒有任何想法。", options: ["正確", "錯誤"], answer: 1 },
+        { type: "選擇題", q: "下列何者為非？", options: ["無者無二相", "無念即百物不思", "念者念真如", "萬法盡通"], answer: 1 },
+        { type: "選擇題", q: "看見藝術品「知而不著」應？", options: ["避免欣賞", "知其珍貴不起貪著", "否定價值", "供養增功德"], answer: 1 },
+        { type: "選擇題", q: "「無住」正確理解是？", options: ["三際托空", "常住善念", "不執著善惡兩邊", "不修加行"], answer: 2 },
+        { type: "選擇題", q: "參與護法會如何符合無相？", options: ["拼時數", "不參加餐會", "觀照三輪體空", "以上皆非"], answer: 2 },
+        { type: "選擇題", q: "何者為非？", options: ["生處轉熟", "熟處轉生", "住在不動境界", "三心不可得"], answer: 2 },
+        { type: "選擇題", q: "「實無功德」是因為梁武帝？", options: ["做錯事", "執著求福", "不禪定", "不修善"], answer: 1 },
+        { type: "選擇題", q: "修行如何做到「離相」？", options: ["不說話", "躲起來", "惡向己好與人", "做自己"], answer: 2 },
+        { type: "選擇題", q: "「百物不思一念絕即死」是指？", options: ["停止思考", "落入無記空失去覺性", "不接境界", "念頭越少越好"], answer: 1 },
+        { type: "選擇題", q: "無念何者為非？", options: ["於念無念", "心不染著", "於境生心", "不染不染"], answer: 2 }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const qData = questions[currentIndex];
+        document.getElementById('progress').innerText = `題數: ${currentIndex + 1} / ${questions.length}`;
+        document.getElementById('score-display').innerText = `得分: ${score}`;
+        document.getElementById('type-tag').innerText = qData.type;
+        document.getElementById('question-text').innerText = qData.q;
+        
+        const optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = '';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'none';
+
+        qData.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btn) {
+        const correctIndex = questions[currentIndex].answer;
+        const allOptions = document.querySelectorAll('.option');
+        allOptions.forEach(opt => opt.style.pointerEvents = 'none');
+
+        if (selectedIndex === correctIndex) {
+            btn.classList.add('correct');
+            score++;
+            showFeedback("正確！恭喜您。", "#d4edda", "#155724");
+        } else {
+            btn.classList.add('wrong');
+            allOptions[correctIndex].classList.add('correct');
+            showFeedback(`答案錯誤。正確答案是：${questions[currentIndex].options[correctIndex]}`, "#f8d7da", "#721c24");
+        }
+        document.getElementById('score-display').innerText = `得分: ${score}`;
+        document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function showFeedback(text, bg, color) {
+        const fb = document.getElementById('feedback');
+        fb.innerText = text;
+        fb.style.backgroundColor = bg;
+        fb.style.color = color;
+        fb.style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < questions.length) {
+            loadQuestion();
+        } else {
+            const percent = Math.round((score / questions.length) * 100);
+            document.getElementById('quiz-app').innerHTML = `
+                <h1>練習完成</h1>
+                <div class="subtitle">測驗結算</div>
+                <div class="final-score">${score} / ${questions.length}</div>
+                <p style="text-align:center; font-size: 18px;">答對率：${percent}%</p>
+                <p style="text-align:center; color: #666;">隨喜功德，願法喜充滿！</p>
+                <button onclick="location.reload()" id="next-btn" style="display:block">再次練習</button>
+            `;
+        }
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
