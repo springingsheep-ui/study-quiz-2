@@ -8,142 +8,106 @@
         :root {
             --primary-brown: #5d4037;
             --light-brown: #8d6e63;
-            --bg-color: #f5f5f0;
+            --bg-color: #fdfbf7;
             --card-bg: #ffffff;
-            --correct-green: #4caf50;
-            --wrong-red: #f44336;
+            --correct-green: #2e7d32;
+            --wrong-red: #c62828;
+            --text-color: #3e2723;
         }
 
         body {
             font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 20px;
-            color: #333;
+            padding: 15px;
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 850px;
             margin: 0 auto;
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
 
         h1 {
             text-align: center;
             color: var(--primary-brown);
-            margin-bottom: 30px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
             border-bottom: 2px solid var(--light-brown);
-            padding-bottom: 15px;
+            padding-bottom: 10px;
         }
 
         .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            background: #fdfdfd;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border: 1px solid #eee;
-            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            background: #f7f3f0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             font-weight: bold;
+            font-size: 0.95rem;
+            border: 1px solid #e0d7d0;
         }
 
         .config-panel {
-            background: #fafafa;
+            background: #fff;
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border: 1px solid #ddd;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--primary-brown); }
+        select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; background: white; }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-brown);
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        button {
-            flex: 1;
-            padding: 12px;
-            font-size: 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        button { flex: 1; min-width: 120px; padding: 12px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        
         .btn-start { background-color: var(--primary-brown); color: white; }
-        .btn-reset { background-color: #9e9e9e; color: white; }
+        .btn-reset { background-color: #757575; color: white; }
         .btn-finish { background-color: var(--light-brown); color: white; }
-        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        button:hover { opacity: 0.9; }
 
-        .hint {
-            text-align: center;
-            color: #777;
-            font-size: 14px;
-            margin-top: 15px;
-        }
+        .hint { text-align: center; color: #795548; font-size: 14px; margin-top: 12px; font-style: italic; }
 
-        .question-item {
+        .question-card {
             border-bottom: 1px solid #eee;
-            padding: 25px 0;
-            animation: fadeIn 0.5s ease;
+            padding: 20px 0;
+            animation: fadeIn 0.4s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .options-container {
-            margin-top: 15px;
-            display: grid;
-            gap: 10px;
-        }
-
-        .option-btn {
-            padding: 12px 20px;
+        .q-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 15px; }
+        .options-grid { display: grid; gap: 10px; }
+        
+        .opt-btn {
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 6px;
-            background: white;
+            border-radius: 5px;
+            background: #fff;
             text-align: left;
             cursor: pointer;
+            font-size: 1rem;
             transition: 0.2s;
-            font-size: 16px;
         }
+        .opt-btn:hover { background: #fdfaf8; border-color: var(--light-brown); }
+        .opt-btn.correct { background-color: #e8f5e9 !important; border-color: var(--correct-green) !important; color: var(--correct-green); font-weight: bold; }
+        .opt-btn.wrong { background-color: #ffebee !important; border-color: var(--wrong-red) !important; color: var(--wrong-red); }
+        .locked { pointer-events: none; }
 
-        .option-btn:hover { background-color: #f0f0f0; }
-        .option-btn.correct { background-color: #e8f5e9; border-color: var(--correct-green); color: var(--correct-green); font-weight: bold; }
-        .option-btn.wrong { background-color: #ffebee; border-color: var(--wrong-red); color: var(--wrong-red); }
-
-        #result-modal {
+        #result-display {
             display: none;
             text-align: center;
-            padding: 40px;
-            background: #fff;
-            border: 3px solid var(--primary-brown);
-            border-radius: 15px;
+            padding: 30px;
+            background: #efebe9;
+            border: 2px solid var(--primary-brown);
+            border-radius: 10px;
             margin-top: 20px;
         }
     </style>
@@ -193,119 +157,181 @@
         </div>
 
         <div class="btn-group">
-            <button class="btn-start" onclick="initQuiz()">開始作答</button>
-            <button class="btn-reset" onclick="resetPage()">重製</button>
-            <button class="btn-finish" onclick="showResults()">完成並看成績</button>
+            <button class="btn-start" onclick="startQuiz()">開始作答</button>
+            <button class="btn-reset" onclick="resetSystem()">重製</button>
+            <button class="btn-finish" onclick="finishAndShow()">完成並看成績</button>
         </div>
         <div class="hint">請選擇章節與題數後，按下「開始作答」</div>
     </div>
 
     <div id="quiz-area"></div>
-    <div id="result-modal"></div>
+    <div id="result-display"></div>
 </div>
 
 <script>
-    // 題庫數據庫
-    const rawData = [
-        // 章節一 [cite: 1]
-        { ch: "1", type: "TF", q: "成佛須「三祇修福慧，百劫修相好」，即使始終不明白心性之理，只要經過三大阿僧祇劫的用功，還是可以成就佛道。", a: "✕" },
-        { ch: "1", type: "TF", q: "「菩提自性是修行根本」意指修行若離心性，就會失去真正的方向與根源。", a: "〇" },
-        { ch: "1", type: "TF", q: "智慧是本性本空，要安住在空性當中。若還有個安住的念頭，便有個「能」，有能就有「所」，那就是方便了。", a: "〇" },
-        { ch: "1", type: "TF", q: "任何法門修到一個頂點後，關鍵在於「安住大乘心」，意即安住於實相，這是修行的「根本」。", a: "〇" },
-        { ch: "1", type: "TF", q: "為了明心見性，修六波羅蜜、念佛、禮誦等，這些都屬於加功用行。", a: "〇" },
-        { ch: "1", type: "TF", q: "大乘心（菩提心）即是覺心，是一種在因當中廣積福德資糧，累積而來的智慧。", a: "✕" },
-        { ch: "1", type: "TF", q: "《壇經》中六祖曰：「菩提自性，本來清淨，但用此心，直了成佛。」因佛性本具，故不用修行，即成佛道。", a: "✕" },
-        { ch: "1", type: "TF", q: "「明心見性」是悟到本具的佛性；覺性本性本空，在本性本空當中不能生萬法。", a: "✕" },
-        { ch: "1", type: "MC", q: "《楞伽經》告訴我們「雖自性淨」，但眾生「猶見不淨」，是何緣故？", opt: ["客塵所覆故", "攀緣執取", "顛倒妄想", "以上皆是"], a: 4 },
-        { ch: "1", type: "MC", q: "「既然十法界不離一心，則一切修法，都是修心」，下列敘述何者正確？", opt: ["心放不下就向下墮落", "除習氣就向上提升", "所有修行本質上都是在修養心性", "以上皆是"], a: 4 },
-        { ch: "1", type: "MC", q: "為何說「心外的一切」都是「緣起性空」？", opt: ["因為心外萬法都是真實永恆的", "因為諸法性空，是仗因托緣而有", "因為本性本空，所以一切都是虛空", "以上皆是"], a: 2 },
-        { ch: "1", type: "MC", q: "五祖開示《金剛經》至哪一句話時，惠能大師言下大悟？", opt: ["如是我聞", "凡所有相，皆是虛妄", "應無所住而生其心", "不識本心，學法無益"], a: 3 },
-        { ch: "1", type: "MC", q: "為什麼要認識本真？", opt: ["以生滅心求不生不滅無有是處", "心性本具，但用此心直了成佛", "不識本心學法無益", "以上皆是"], a: 4 },
-        { ch: "1", type: "MC", q: "根據「菩薩畏因，眾生畏果」，修行者在面對煩惱時應當如何？", opt: ["廣修六度以福報消除業障", "安住於空無境界中", "從因上、心上去用功", "祈求佛力加持承擔業報"], a: 3 },
-        { ch: "1", type: "MC", q: "在佛法中，「安住空性」的涵義是指什麼？", opt: ["專注於呼吸", "保持安住不動的念頭", "當下這念心，不起心、不動念", "斷除所有煩惱習氣"], a: 3 },
-        { ch: "1", type: "MC", q: "五祖云：「無上菩提，須得言下識自本心。」以下何者為「言下」之意？", opt: ["說話的當下即是", "在他人的言說中找答案", "聽聞後回去思惟", "以上皆是"], a: 1 },
-        { ch: "1", type: "MC", q: "關於「菩提自性」的描述，下列哪一項是正確的？", opt: ["它是虛空一無所有", "必須向外學習智慧啟發", "不生不滅，在本性本空當中能生萬有", "體性是生滅的"], a: 3 },
+    // 完整 124 題庫數據庫 
+    const bank = [
+        // (一) 17題
+        {ch:"1", t:"TF", q:"成佛須「三祇修福慧，百劫修相好」，即使始終不明白心性之理，只要經過三大阿僧祇劫的用功，還是可以成就佛道。", a:"✕"},
+        {ch:"1", t:"TF", q:"「菩提自性是修行根本」意指修行若離心性，就會失去真正的方向與根源。", a:"〇"},
+        {ch:"1", t:"TF", q:"智慧是本性本空，要安住在空性當中，說安住在空性中也是個方便。假使還有個安住的念頭，便有個「能」，有能就有「所」。", a:"〇"},
+        {ch:"1", t:"TF", q:"任何法門修到一個頂點後，關鍵在於「安住大乘心」，意即安住於實相，這是修行的「根本」。", a:"〇"},
+        {ch:"1", t:"TF", q:"為了明心見性，修六波羅蜜、修戒定慧、修善斷惡、念佛等，這些都屬於加功用行。", a:"〇"},
+        {ch:"1", t:"TF", q:"大乘心（菩提心）即是覺心，是一種在因當中廣積福德資糧，累積而來的智慧。", a:"✕"},
+        {ch:"1", t:"TF", q:"《壇經》中六祖大師曰：「菩提自性，本來清淨，但用此心，直了成佛。」因佛性本具，故不用修行，即成佛道。", a:"✕"},
+        {ch:"1", t:"TF", q:"「明心見性」是悟到本具的佛性；覺性本性本空、不生不滅；在本性本空當中不能生萬法。", a:"✕"},
+        {ch:"1", t:"MC", q:"《楞伽經》告訴我們「雖自性淨」，但眾生「猶見不淨」，是何緣故？", o:["客塵所覆故","攀緣執取","顛倒妄想","以上皆是"], a:4},
+        {ch:"1", t:"MC", q:"「既然十法界不離一心，則一切修法，都是修心」，下列敘述何者正確？", o:["心放不下就向下墮落","除習氣向上提升","所有修行本質上都是在修養心性","以上皆是"], a:4},
+        {ch:"1", t:"MC", q:"為何說「心外的一切」都是「緣起性空」？", o:["心外萬法是真實永恆的","諸法性空，是仗因托緣而有","本性本空，所以一切都是虛空","以上皆是"], a:2},
+        {ch:"1", t:"MC", q:"五祖大師開示《金剛經》至哪一句話時，惠能大師言下大悟？", o:["如是我聞","凡所有相，皆是虛妄","應無所住而生其心","不識本心，學法無益"], a:3},
+        {ch:"1", t:"MC", q:"為什麼要認識本真？", o:["以生滅心求不生不滅無有是處","心性本具，但用此心直了成佛","不識本心學法無益","以上皆是"], a:4},
+        {ch:"1", t:"MC", q:"根據「菩薩畏因，眾生畏果」，修行者在面對煩惱時，應當如何用功？", o:["廣修六波羅蜜以福報消除業障","安住於空無境界中","從因上、心上去用功","祈求佛力加持承擔業報"], a:3},
+        {ch:"1", t:"MC", q:"在佛法中，「安住空性」的涵義是指什麼？", o:["專注於呼吸","保持安住不動的念頭","當下這念心，不起心、不動念","斷除所有煩惱習氣"], a:3},
+        {ch:"1", t:"MC", q:"五祖大師云：「無上菩提，須得言下識自本心。」以下何者為「言下」之意？", o:["說話的當下即是","在他人的言說中找答案","聽聞後回去思惟","以上皆是"], a:1},
+        {ch:"1", t:"MC", q:"關於「菩提自性」的描述，下列哪一項正確？", o:["它是虛空一無所有","須透過向外學習智慧啟發","能生萬有，具足功德妙用","體性是生滅的"], a:3},
 
-        // 章節二 [cite: 2, 3]
-        { ch: "2", type: "TF", q: "窺基大師說，信心的建立要藉由外善知識；理解則須自覺，非他人所能替代。", a: "〇" },
-        { ch: "2", type: "TF", q: "「一闡提」不解不信，是為斷絕善根的人，所以不可能成佛。", a: "✕" },
-        { ch: "2", type: "TF", q: "修行的過程，應讓信心從初信、正信、深信到證信。", a: "〇" },
-        { ch: "2", type: "TF", q: "有智慧但無信心的人容易增長無明；有信心但無智慧的人容易增長邪見。", a: "✕" },
-        { ch: "2", type: "TF", q: "若有眾生欲向大乘者，最初根本之業是依止「一實境界」修習信解。", a: "〇" },
-        { ch: "2", type: "TF", q: "「信」首先要斷疑生信，「解」是從知解入門，最後還要「解悟」。", a: "〇" },
-        { ch: "2", type: "TF", q: "佛法講行持有「內行外行」：內行須斷我法二執，外行修萬善細行。", a: "〇" },
-        { ch: "2", type: "MC", q: "如何信解自性？", opt: ["知幻即離", "離幻即覺", "隨順覺性", "以上皆是"], a: 4 },
-        { ch: "2", type: "MC", q: "根據《大般涅槃經》，哪兩種人會「謗佛法僧」？", opt: ["初發心者與悟解者", "斷我法執者與修萬善者", "瞋恚不生信心者及有信未解義者", "利根邪見與鈍根正見者"], a: 3 },
-        { ch: "2", type: "MC", q: "關於信解自性，下列何者正確？", opt: ["有信無解增長邪見", "地前菩薩由信而解", "解而不信是鈍根人", "聞法信入是解悟之解"], a: 2 },
-        { ch: "2", type: "MC", q: "六祖惠能聞何經語心即開悟？", opt: ["法華經", "華嚴經", "圓覺經", "金剛經"], a: 4 },
+        // (二) 19題
+        {ch:"2", t:"TF", q:"窺基大師說，信心的建立要藉由外善知識；理解則須自覺，非他人所能替代。", a:"〇"},
+        {ch:"2", t:"TF", q:"「一闡提」不解不信，是為斷絕善根的人，所以不可能成佛。", a:"✕"},
+        {ch:"2", t:"TF", q:"修行的過程，應該要讓自己的信心從初信、正信、深信到證信。", a:"〇"},
+        {ch:"2", t:"TF", q:"有智慧但無信心的人容易增長無明；有信心但無智慧的人容易增長邪見。", a:"✕"},
+        {ch:"2", t:"TF", q:"若有眾生欲向大乘者，最初所行的根本之業，是依止「一實境界」來修習信解。", a:"〇"},
+        {ch:"2", t:"TF", q:"修行人但從心上用功，不向心外馳求，信自心是佛，是真實不虛的聖教。", a:"〇"},
+        {ch:"2", t:"TF", q:"「信」首先要斷疑生信，「解」是從知解入門，最後還要「解悟」。", a:"〇"},
+        {ch:"2", t:"TF", q:"靈雲睹桃花、香嚴聞擊竹聲，稱之為「知解之解」。", a:"✕"},
+        {ch:"2", t:"TF", q:"「行」有內行外行。內行須斷我法二執；外行則修萬善細行。", a:"〇"},
+        {ch:"2", t:"MC", q:"如何信解自性？", o:["知幻即離","離幻即覺","隨順覺性","以上皆是"], a:4},
+        {ch:"2", t:"MC", q:"欲學無上菩提，下列何者為非？", o:["息滅妄心，了知妄境","應信解自性","須言下識自本心","若輕人即有無量罪"], a:1},
+        {ch:"2", t:"MC", q:"窺基大師所謂的「一闡提輩」是指：", o:["利根正見者","利根邪見者","鈍根正見者","鈍根邪見者"], a:4},
+        {ch:"2", t:"MC", q:"根據《大般涅槃經》，哪兩種人會「謗佛法僧」？", o:["初發心者與悟解者","斷我法執者與萬善者","瞋恚不信者及有信未解義者","利根邪見與鈍根正見者"], a:3},
+        {ch:"2", t:"MC", q:"關於信解自性，下列何者正確？", o:["有信無解增長邪見","地前菩薩由信而解","解而不信是鈍根人","聞法信入是解悟之解"], a:2},
+        {ch:"2", t:"MC", q:"判斷自己是否在「由信而解」階段，可以檢視：", o:["背誦所有經典","以正見引導行門","有神通見因果","離群索居"], a:2},
+        {ch:"2", t:"MC", q:"下列敘述何者錯誤？", o:["不起心動念就是降伏其心","反觀內照是最高財富","眾生有佛性，諸法有自性","漸修也能成道"], a:3},
+        {ch:"2", t:"MC", q:"以下何者為非？", o:["不信之人因瞋恚毀謗","有信不解佛義亦不謗三寶","有慧無信增長邪見","一解便入祖位"], a:2},
+        {ch:"2", t:"MC", q:"六祖惠能大師一聞經語心即開悟，當時聽聞客人在誦讀：", o:["法華經","華嚴經","圓覺經","金剛經"], a:4},
 
-        // 章節三 [cite: 4, 5]
-        { ch: "3", type: "TF", q: "六祖大師悟到體用不二、空有一如，就是要「無住生心」，起般若觀照。", a: "〇" },
-        { ch: "3", type: "TF", q: "神秀大師「勿使惹塵埃」是指應讓自己完全遠離塵世不接觸人事物。", a: "✕" },
-        { ch: "3", type: "TF", q: "事修就是要讓身口意三業時時保持清淨，心中真正光明清淨即可見性。", a: "〇" },
-        { ch: "3", type: "TF", q: "惠能大師作「菩提本無樹」一偈，即已達到最高體用一如的實相境界。", a: "✕" },
-        { ch: "3", type: "TF", q: "「應無所住而生其心」的「住」是指攀緣心。", a: "✕" },
-        { ch: "3", type: "MC", q: "六祖大師偈子「本來無一物，何處惹塵埃」所揭示的理體是：", opt: ["空性、一切諸法畢竟空", "知幻即離", "妙有之理能生萬法", "漸修成道"], a: 1 },
-        { ch: "3", type: "MC", q: "五祖對神秀說「只到門外，未入門內」，意指神秀屬於：", opt: ["悟到空性但執著空", "功德具足只欠印可", "執著於有為法，尚未契悟無為心", "有解悟但無實證"], a: 3 },
-        { ch: "3", type: "MC", q: "下列何者為非？", opt: ["「菩提本無樹」意為菩提樹乃因緣假合是空性", "「明鏡亦非台」表心體無台可尋", "「本來無一物」意為一切法畢竟空", "「何處惹塵埃」意為菩提心染污即不得"], a: 4 },
+        // (三) 18題
+        {ch:"3", t:"TF", q:"六祖大師悟到體用不二，就是要「無住生心」，起般若觀照。", a:"〇"},
+        {ch:"3", t:"TF", q:"在未悟之前，所修的一切都是加行，還不是真正的修道。", a:"〇"},
+        {ch:"3", t:"TF", q:"神秀大師「勿使惹塵埃」是指真正的修行人應完全遠離塵世。", a:"✕"},
+        {ch:"3", t:"TF", q:"事修就是讓身口意三業清淨，心中無貪瞋癡慢疑，即可見性。", a:"〇"},
+        {ch:"3", t:"TF", q:"既然「菩提本無樹」，就不必修善法，自然直了成佛。", a:"✕"},
+        {ch:"3", t:"TF", q:"惠能大師作「菩提本無樹」一偈，即已悟到最高的實相境界。", a:"✕"},
+        {ch:"3", t:"TF", q:"「應無所住而生其心」的「住」指攀緣心，不想過去現在未來就是無住。", a:"✕"},
+        {ch:"3", t:"TF", q:"「言下」指的是起心動念當下那一念。", a:"〇"},
+        {ch:"3", t:"TF", q:"五祖要求火急作偈，因為見性之人不能思慮太慢。", a:"✕"},
+        {ch:"3", t:"TF", q:"「時時勤拂拭」只是事修體悟，不能依此用功。", a:"✕"},
+        {ch:"3", t:"MC", q:"惠能大師聽「應無所住而生其心」言下大悟，悟到：", o:["一切萬法不離自性","心體用一如","無住生心即定慧等持","以上皆是"], a:4},
+        {ch:"3", t:"MC", q:"六祖偈子「菩提本無樹...」揭示的理體是：", o:["空性、一切法畢竟空","知幻即離","妙有能生萬法","漸修成道"], a:1},
+        {ch:"3", t:"MC", q:"下列何者符合「自性能生萬法」道理？", o:["隨心所欲","得過且過","一切註定","認識心念至關重要而積極修善"], a:4},
+        {ch:"3", t:"MC", q:"五祖對神秀說「未入門內」，意指神秀：", o:["執著於空","只欠印可","執著有為法，未契無為本心","有解無證"], a:3},
+        {ch:"3", t:"MC", q:"幫人完成任務卻心想功勞歸我，這是哪種執著？", o:["四大五蘊為幻有","有理無事","修福著相，有我罪即生","執空廢有"], a:3},
+        {ch:"3", t:"MC", q:"五祖為何說「思量即不中用」？", o:["心性是無為法","思量是生滅想念","見性之人言下須見","以上皆是"], a:4},
+        {ch:"3", t:"MC", q:"有關六祖開悟層次，何者為是？", o:["悟心之體及體用一如","初次指未悟最高實相","第二次悟無住生心","以上皆是"], a:4},
+        {ch:"3", t:"MC", q:"下列何者為非？", o:["菩提本無樹表因緣假合空性","明鏡表心體無台可尋","本來無一物表畢竟空","何處惹塵埃表菩提心染污即不得"], a:4},
 
-        // 章節四、五 [cite: 6, 7]
-        { ch: "45", type: "TF", q: "「觸物起照」指的是在接觸外境時能觀其虛妄，不為境轉。", a: "〇" },
-        { ch: "45", type: "TF", q: "「終日喫飯，未曾咬著一粒米」告訴我們修行在日用間不被境惑即是解脫。", a: "〇" },
-        { ch: "45", type: "TF", q: "佛言：「隨其心淨即佛土淨」，只有到了西方才能心淨土淨。", a: "✕" },
-        { ch: "45", type: "TF", q: "善知識雖能指引方向，但不能替弟子開悟。", a: "〇" },
-        { ch: "45", type: "MC", q: "所謂「外道」是指：", opt: ["執世界有造物主者", "執斷常知見者", "心外求道者", "以上皆是"], a: 4 },
-        { ch: "45", type: "MC", q: "世尊食時著衣持缽乞食，須菩提大嘆希有，體悟到什麼？", opt: ["世尊具足威儀", "行住坐臥皆不離自性", "世尊食畢即敷座用功", "世尊和光同塵"], a: 2 },
-        { ch: "45", type: "MC", q: "根據《大乘起信論》眾生欲成佛道，下列何者為是？", opt: ["可自斷煩惱入涅槃", "善知識使其外得悟境", "正因是本有，須善知識為緣引導方契自性", "正因即師度"], a: 3 },
+        // (四)(五) 20題
+        {ch:"45", t:"TF", q:"真如有「正因熏習之力」，依靠真如內薰即能自斷煩惱入涅槃。", a:"✕"},
+        {ch:"45", t:"TF", q:"佛陀云：「善知識是梵行全體。」故得遇大善知識即無勞我修。", a:"✕"},
+        {ch:"45", t:"TF", q:"心無邪見、具備見解並能落實修行者，即稱為「大善知識」。", a:"✕"},
+        {ch:"45", t:"TF", q:"「觸物起照」指接觸外境時能觀照虛妄，不為境轉。", a:"〇"},
+        {ch:"45", t:"TF", q:"「終日喫飯，未曾咬著一粒米」指修行在日用間不被境惑。", a:"〇"},
+        {ch:"45", t:"TF", q:"菩薩修行廣修六度，必須與眾生同流合污才能度眾。", a:"✕"},
+        {ch:"45", t:"TF", q:"香嚴禪師聞擊竹聲，體悟「能聽的心」與「所聽聲」同時存在而開悟。", a:"✕"},
+        {ch:"45", t:"TF", q:"佛言：「隨其心淨即佛土淨」，只有到西方才能心淨土淨。", a:"✕"},
+        {ch:"45", t:"TF", q:"善知識能指引方向，但不能替弟子開悟。", a:"〇"},
+        {ch:"45", t:"TF", q:"自性自度核心：自心煩惱由正見調伏，度在自心不在外。", a:"〇"},
+        {ch:"45", t:"MC", q:"所謂「外道」是指：", o:["執造物主者","執斷常者","心外求道者","以上皆是"], a:4},
+        {ch:"45", t:"MC", q:"如何在日用中修行？", o:["在不知處求固有之知","不為聲色貨利所惑","遇境無一物可動其中","以上皆是"], a:4},
+        {ch:"45", t:"MC", q:"依「應無所住而生其心」道理，應堅持：", o:["什麼都不想","廣行六度且不在塵境中染著","只專注禪定","只修事相不理體空"], a:2},
+        {ch:"45", t:"MC", q:"世尊乞食還本處敷座而坐，須菩提大歎希有，體悟到：", o:["具足威儀","穿衣吃飯不離自性","敷座用功精進","沒有特權"], a:2},
+        {ch:"45", t:"MC", q:"根據「無盡燈法門」，報佛恩表現是：", o:["誦經禮懺","確保衣缽不失","開導眾生發菩提心","以上皆是"], a:3},
+        {ch:"45", t:"MC", q:"關於師度需自度，何者為非？", o:["身心不相代","師父是指路碑","師度自度各佔半體","修行在個人"], a:3},
+        {ch:"45", t:"MC", q:"根據《起信論》正因熏習，若欲成佛：", o:["可自斷煩惱","善知識使其外得悟境","須善知識為緣引導方能契悟","正因即師度"], a:3},
+        {ch:"45", t:"MC", q:"根據〈六即頌〉，修行人應：", o:["專注修福不管行為","專注事修","理全是即可","「行藏處」就是用功處"], a:4},
+        {ch:"45", t:"MC", q:"下列何者是心外求道？", o:["觸物起照","修六度為求福生天","人在哪心在哪","布施不住相"], a:2},
+        {ch:"45", t:"MC", q:"為什麼迷時需要師度？", o:["令得見性","脫於生死","佛法無人說雖慧莫能了","以上皆是"], a:4},
 
-        // 章節六 [cite: 8, 9]
-        { ch: "6", type: "TF", q: "頓悟法門是無一法可得，連清淨法、出世法也了不可得。", a: "〇" },
-        { ch: "6", type: "TF", q: "「事理不二」的意思是只要懂道理，不需要持戒、打坐實踐。", a: "✕" },
-        { ch: "6", type: "TF", q: "六祖認為禪定解脫比見性更重要。", a: "✕" },
-        { ch: "6", type: "MC", q: "有關於「佛性」，下列何者正確？", opt: ["不二之法", "非常非無常", "一闡提亦有", "以上皆是"], a: 4 },
-        { ch: "6", type: "MC", q: "關於頓悟與漸修，下列正確的是：", opt: ["兩者矛盾", "頓悟為因漸修為果", "兩者互相融通沒有矛盾", "漸修從理入"], a: 3 },
+        // (六) 16題
+        {ch:"6", t:"TF", q:"頓悟法門是無一法可得，染法、清淨法、出世法皆不可得。", a:"〇"},
+        {ch:"6", t:"TF", q:"六根對境心不迷惑就是悟，這念心才是真正路頭。", a:"〇"},
+        {ch:"6", t:"TF", q:"「中道」指不偏執生滅常斷，但仍承認其為實有。", a:"✕"},
+        {ch:"6", t:"TF", q:"「事理不二」意為只要懂道理，不需持戒打坐等實踐。", a:"✕"},
+        {ch:"6", t:"TF", q:"正教無頓漸之別，因眾生根有利鈍差異而立假名。", a:"〇"},
+        {ch:"6", t:"TF", q:"六祖認為禪定解脫比見性更重要。", a:"✕"},
+        {ch:"6", t:"TF", q:"「頓悟」指當下契悟，「漸修」是依次第斷習氣由事入理。", a:"〇"},
+        {ch:"6", t:"TF", q:"維摩詰菩薩示現「不二法門」是透過讚歎與說法。", a:"✕"},
+        {ch:"6", t:"MC", q:"有關「佛性」，下列何者正確？", o:["不二之法","非常非無常","一闡提亦有","以上皆是"], a:4},
+        {ch:"6", t:"MC", q:"「心性」只有一個，原因為：", o:["二就成相對","相對屬生滅","是方便法","以上皆是"], a:4},
+        {ch:"6", t:"MC", q:"事做完後仍「沾沾自喜」表示：", o:["思盡還源","智慧心顯現","還執著妄想未銷歸自性","有修行展現"], a:3},
+        {ch:"6", t:"MC", q:"所謂事理不二是指：", o:["事理一如","圓融無礙","即事即理","以上皆是"], a:4},
+        {ch:"6", t:"MC", q:"關於頓悟漸修，敘述正確的是：", o:["兩者矛盾","頓悟因漸修果","兩者互相融通","漸修從理入"], a:3},
+        {ch:"6", t:"MC", q:"「佛法是不二之法」意義為何？", o:["修禪定證佛性","有修有證方名佛法","超越相對，不落二邊","次第而修"], a:3},
+        {ch:"6", t:"MC", q:"五祖在黃梅教導學人的頓悟法門是？", o:["六度法門","惟論見性","懺悔法門","斷惡修善"], a:2},
+        {ch:"6", t:"MC", q:"(補充) 下列何者能展現「圓滿本具自性」？", o:["向外馳求","執著次第","當下承當見性","以上皆非"], a:3},
 
-        // 章節七 [cite: 10]
-        { ch: "7", type: "TF", q: "「佛法在世間，不離世間覺」意指成無上菩提須從日常生活中覺照自心。", a: "〇" },
-        { ch: "7", type: "TF", q: "「摩訶」是大，指見一切人善惡時，心中應百無所思。", a: "✕" },
-        { ch: "7", type: "TF", q: "忍辱若無般若，雖可得端正果報，但無法證得寂滅忍。", a: "〇" },
-        { ch: "7", type: "MC", q: "「摩訶般若波羅蜜」的意義是：", opt: ["大智慧成就無上正覺", "大慈悲得離苦", "大智慧到彼岸", "大智慧得證果"], a: 3 },
-        { ch: "7", type: "MC", q: "關於「若真修道人，不見世間過」，下列正確的是：", opt: ["不管是非對錯", "見不賢而內自省", "不因別人的過失起煩惱", "以上皆是"], a: 4 },
+        // (七) 20題
+        {ch:"7", t:"TF", q:"六祖般若指透過大量閱讀累積博學智慧。", a:"✕"},
+        {ch:"7", t:"TF", q:"「正見名出世」指修行者應時時指正他人過失。", a:"✕"},
+        {ch:"7", t:"TF", q:"波羅蜜梵語中義為覺有情。", a:"✕"},
+        {ch:"7", t:"TF", q:"摩訶般若波羅蜜需口念心行，心口相應。", a:"〇"},
+        {ch:"7", t:"TF", q:"「佛法在世間」意指成菩提需從日常生活中覺照自心。", a:"〇"},
+        {ch:"7", t:"TF", q:"「摩訶」指見人善惡時，心中百無所思。", a:"✕"},
+        {ch:"7", t:"TF", q:"實踐般若波羅蜜是在行住坐臥中保持「一直心」。", a:"〇"},
+        {ch:"7", t:"TF", q:"般若智世人本有，須大眾共修禮拜方能見性。", a:"✕"},
+        {ch:"7", t:"TF", q:"忍辱無般若，雖得端正相好，無法證寂滅忍。", a:"〇"},
+        {ch:"7", t:"TF", q:"(補充) 修行離不開世間，若離世間求菩提如求兔角。", a:"〇"},
+        {ch:"7", t:"MC", q:"「摩訶般若波羅蜜」意義是：", o:["大智慧成正覺","大慈悲離苦","大智慧到彼岸","大智慧得證果"], a:3},
+        {ch:"7", t:"MC", q:"「離道別覓道」提醒避免何種心態？", o:["害怕犯錯","不知返照自心只尋師訪道","不關心他人","以上皆是"], a:2},
+        {ch:"7", t:"MC", q:"關於「般若行」，何者為非？", o:["三輪體空布施","思而無思","不起心動念一無所知","不被愚癡蒙蔽"], a:3},
+        {ch:"7", t:"MC", q:"六祖解釋般若與一般智慧區別在於：", o:["從善知識得","世人本自具足見實相之智","神通力","複雜邏輯"], a:2},
+        {ch:"7", t:"MC", q:"六祖以何比喻生死此岸？", o:["風中落葉","水中波浪","火焰晃耀","山峰起伏"], a:2},
+        {ch:"7", t:"MC", q:"有關「般若」，敘述錯誤者：", o:["生死此岸如水流通不息","無住無去來即摩訶般若","三世諸佛從般若生","一切法不離自性"], a:1},
+        {ch:"7", t:"MC", q:"有關「布施」，錯誤者：", o:["捨己利他真義","般若引導發菩提心","三輪體空契悟","法施不管住不住相皆有無相功德"], a:4},
+        {ch:"7", t:"MC", q:"關於「不見世間過」，正確者：", o:["不管是非","見不賢內自省","不因人過起煩惱","以上皆是"], a:4},
+        {ch:"7", t:"MC", q:"爭吵時如何運用摩訶般若？", o:["壓下怒氣內心不平","不處理任由惡化","觀照緣起性空不取不捨","找朋友抱怨"], a:3},
+        {ch:"7", t:"MC", q:"為何般若波羅蜜最重要？", o:["三世諸佛從中出","無上菩提之前導","於法不取不捨即見性","以上皆是"], a:4},
 
-        // 章節八、九、十 [cite: 11, 12]
-        { ch: "810", type: "TF", q: "於諸法上，念念不住即無縛也，此是以「無住」為本。", a: "〇" },
-        { ch: "810", type: "TF", q: "無念是禪宗根本，意思是心中沒有任何念頭。", a: "✕" },
-        { ch: "810", type: "TF", q: "離相並不是離開世間，而不執著一切相。", a: "〇" },
-        { ch: "810", type: "MC", q: "下列敘述何者為非？", opt: ["無念者念真如本性", "無念者即百物不思", "悟無念者萬法盡通", "佛的心是無念無住"], a: 2 },
-        { ch: "810", type: "MC", q: "關於「無住」的正確理解是：", opt: ["住即是三際托空", "須常住善念", "對善惡兩者都不要執著", "不必修轉化習氣"], a: 3 },
-        { ch: "810", type: "MC", q: "達磨祖師對梁武帝說「實無功德」原因是：", opt: ["梁武帝做錯了", "功德只從禪定得", "梁武帝執著善法求福而非功德", "不必行善"], a: 3 }
+        // (八)(九)(十) 14題
+        {ch:"810", t:"TF", q:"達到無住心可依「三際托空」，安住於空無定境。", a:"✕"},
+        {ch:"810", t:"TF", q:"於諸法上念念不住即無縛，是以「無住」為本。", a:"〇"},
+        {ch:"810", t:"TF", q:"過堂貪吃油豆腐，之後回禪堂用功不妄想，即符無念為宗。", a:"✕"},
+        {ch:"810", t:"TF", q:"心清淨後什麼都可以不管，依然是淨土。", a:"✕"},
+        {ch:"810", t:"TF", q:"《心經》「照見」是指眼睛看見。", a:"✕"},
+        {ch:"810", t:"TF", q:"「離相」非離開世間，而是不執著一切相。", a:"〇"},
+        {ch:"810", t:"TF", q:"「於相而離相」，在忙碌事務中也能證得無相心體。", a:"〇"},
+        {ch:"810", t:"TF", q:"無念是禪宗根本，意為心中無任何念頭想法。", a:"✕"},
+        {ch:"810", t:"MC", q:"下列敘述何者為非？", o:["無念者念真如本性","無念者即百物不思念盡除卻","悟無念法者萬法盡通","佛心無念無住"], a:2},
+        {ch:"810", t:"MC", q:"欣賞藝術品時應如何思惟？", o:["避免欣賞以免生妄念","知其珍貴善用但不起貪著","否定其價值","立刻買下供養"], a:2},
+        {ch:"810", t:"MC", q:"關於「無住」正確理解：", o:["三際托空","不住惡念須常住善念","對善惡兩者都不執著","不必再轉化習氣"], a:3},
+        {ch:"810", t:"MC", q:"參與護法會如何符「無相為體」？", o:["拼命增加時數","避免餐敘","保持謙下思惟三輪體空","以上皆非"], a:3},
+        {ch:"810", t:"MC", q:"轉化習氣以下何者為非？", o:["生處轉熟","熟處轉生","直接住在不動境界","思惟三心了不可得"], a:3},
+        {ch:"810", t:"MC", q:"達磨祖師對梁武帝說「實無功德」原因：", o:["做錯了","功德只從禪定得","執著善法求福而非功德","不必行善"], a:3}
     ];
 
     let currentQuestions = [];
     let correctCount = 0;
     let answeredCount = 0;
 
-    function initQuiz() {
+    function startQuiz() {
         const chapter = document.getElementById('chapter-filter').value;
         const mode = document.getElementById('mode-filter').value;
         const count = document.getElementById('count-filter').value;
 
-        // 篩選章節
-        let filtered = chapter === 'all' ? [...rawData] : rawData.filter(x => x.ch === chapter);
+        // 篩選章節 [cite: 1, 2]
+        let filtered = chapter === 'all' ? [...bank] : bank.filter(q => q.ch === chapter);
 
-        // 模式處理
-        if (mode === 'random') {
-            filtered = filtered.sort(() => Math.random() - 0.5);
-        }
+        // 模式切換
+        if (mode === 'random') filtered.sort(() => Math.random() - 0.5);
 
         // 題數限制
-        const finalCount = count === 'all' ? filtered.length : Math.min(parseInt(count), filtered.length);
+        const finalCount = count === 'all' ? filtered.length : parseInt(count);
         currentQuestions = filtered.slice(0, finalCount);
 
-        // 重設狀態
+        // 重置統計
         correctCount = 0;
         answeredCount = 0;
-        document.getElementById('result-modal').style.display = 'none';
+        document.getElementById('result-display').style.display = 'none';
         updateStats();
         renderQuiz();
     }
@@ -313,58 +339,51 @@
     function renderQuiz() {
         const area = document.getElementById('quiz-area');
         area.innerHTML = '';
-
-        currentQuestions.forEach((item, idx) => {
-            const div = document.createElement('div');
-            div.className = 'question-item';
-            div.innerHTML = `<p><strong>第 ${idx + 1} 題 [${item.type === 'TF' ? '是非' : '選擇'}]：</strong> ${item.q}</p>`;
-
-            const optsDiv = document.createElement('div');
-            optsDiv.className = 'options-container';
-
-            const choices = item.type === 'TF' ? ['〇', '✕'] : item.opt;
-            choices.forEach((c, cIdx) => {
+        
+        currentQuestions.forEach((q, idx) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `<div class="q-text">${idx+1}. [${q.t==='TF'?'是非':'選擇'}] ${q.q}</div>`;
+            
+            const grid = document.createElement('div');
+            grid.className = 'options-grid';
+            
+            const opts = q.t === 'TF' ? ['〇', '✕'] : q.o;
+            opts.forEach((text, i) => {
                 const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = item.type === 'TF' ? c : `${cIdx + 1}. ${c}`;
-                btn.onclick = () => checkAnswer(btn, idx, c, item.a, cIdx + 1);
-                optsDiv.appendChild(btn);
+                btn.className = 'opt-btn';
+                btn.innerText = q.t === 'TF' ? text : `${i+1}. ${text}`;
+                btn.onclick = () => handleAnswer(btn, idx, text, i+1);
+                grid.appendChild(btn);
             });
-
-            div.appendChild(optsDiv);
-            area.appendChild(div);
+            
+            card.appendChild(grid);
+            area.appendChild(card);
         });
     }
 
-    function checkAnswer(btn, qIdx, selectedVal, correctVal, mcIdx) {
-        const container = btn.parentElement;
-        if (container.classList.contains('locked')) return;
+    function handleAnswer(btn, qIdx, text, mcIndex) {
+        const parent = btn.parentElement;
+        if (parent.classList.contains('locked')) return;
 
+        const q = currentQuestions[qIdx];
+        let isCorrect = q.t === 'TF' ? (text === q.a) : (mcIndex === q.a);
+        
         answeredCount++;
-        let isCorrect = false;
-
-        if (currentQuestions[qIdx].type === 'TF') {
-            isCorrect = (selectedVal === correctVal);
-        } else {
-            isCorrect = (mcIdx === correctVal);
-        }
-
         if (isCorrect) {
-            btn.classList.add('correct');
             correctCount++;
+            btn.classList.add('correct');
         } else {
             btn.classList.add('wrong');
-            // 找出正確的按鈕標示出來
-            Array.from(container.children).forEach((child, i) => {
-                if (currentQuestions[qIdx].type === 'TF') {
-                    if (child.innerText === correctVal) child.classList.add('correct');
-                } else {
-                    if ((i + 1) === correctVal) child.classList.add('correct');
-                }
+            // 標示正確答案
+            Array.from(parent.children).forEach((child, i) => {
+                const cText = child.innerText;
+                const isThisRight = q.t === 'TF' ? (cText === q.a) : ((i+1) === q.a);
+                if (isThisRight) child.classList.add('correct');
             });
         }
-
-        container.classList.add('locked');
+        
+        parent.classList.add('locked');
         updateStats();
     }
 
@@ -374,21 +393,16 @@
         document.getElementById('correct-q').innerText = correctCount;
     }
 
-    function showResults() {
+    function finishAndShow() {
         if (currentQuestions.length === 0) return;
+        const res = document.getElementById('result-display');
         const score = Math.round((correctCount / currentQuestions.length) * 100);
-        const modal = document.getElementById('result-modal');
-        modal.style.display = 'block';
-        modal.innerHTML = `
-            <h2>作答完成！</h2>
-            <p style="font-size: 24px;">最終分數：<span style="color:var(--primary-brown)">${score}</span> 分</p>
-            <p>答對題數：${correctCount} / ${currentQuestions.length}</p>
-            <button class="btn-reset" onclick="resetPage()">關閉並重置</button>
-        `;
-        window.scrollTo({ top: modal.offsetTop, behavior: 'smooth' });
+        res.style.display = 'block';
+        res.innerHTML = `<h3>測驗結束</h3><p>得分：${score} 分</p><p>答對題數：${correctCount} / ${currentQuestions.length}</p>`;
+        window.scrollTo({ top: res.offsetTop, behavior: 'smooth' });
     }
 
-    function resetPage() {
+    function resetSystem() {
         location.reload();
     }
 </script>
